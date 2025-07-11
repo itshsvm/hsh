@@ -58,44 +58,69 @@ Once the shell is running, you can type any of the supported commands at the `hs
 ```bash
 hsh > ls
 src   target   README.md   Cargo.toml
+
 hsh > touch new_document.txt
-hsh > ls
-src   target   README.md   Cargo.toml   new_document.txt
+
 hsh > read README.md
 # HSH: A Simple Shell in Rust
----
+...
+
 hsh > set lang=Rust
 hsh > echo Welcome to $lang programming.
 # Welcome to Rust programming.
+
 hsh > set lang=Rust name=Hesam
 hsh > set
 # name=Hesam
 # lang=Rust
 
-hsh > set path=/home/hesam
-hsh > read $path/notes.txt
 hsh > export editor=nvim
-
 hsh > env
 # editor=nvim
 
 hsh > unset name
 hsh > set
 # lang=Rust
-# version=1.78
 # editor=nvim
----
-# ... (contents of README.md) ...
+
+hsh > rm -v new_document.txt
+# removed 'new_document.txt'
+
+hsh > mkdir mydir
+hsh > rmdir -v mydir
+# removed directory 'mydir'
 
 hsh > cd src
-hsh > ls
-main.rs
 hsh > pwd
-/current/directory
+/current/directory/src
+
 hsh > clear
 # (the terminal screen will clear)
+
 hsh > exit
+# (shell session ends)
 ```
+
+### 🧠 Supported Flags
+
+| Command   | Flags       | Description                                                           |
+|-----------|-------------|------------------------------------------------------------------------|
+| ls      | -a         | Show hidden files (those starting with `.`)                            |
+|           | -l         | Display in long listing format                                         |
+| rm      | -f         | Force removal; ignore nonexistent files and suppress errors           |
+|           | -v         | Verbose mode; print each file as it is removed                        |
+| rmdir   | -v         | Verbose mode; print each directory as it is removed                   |
+| cat     | —         | Number all output lines                                               |
+|           | —         | Display $ at the end of each line                                   |
+| echo    | —         | Do not output the trailing newline                                     |
+| clear   | —            | Clears the terminal screen                                             |
+| cd      | —            | Change current working directory                                       |
+| touch   | —            | Create an empty file or update its modification timestamp             |
+| read    | —            | Print the contents of a file                                           |
+| set     | —            | Set or view internal shell variables                                   |
+| export  | —            | Export a variable to environment for child processes                   |
+| unset   | —            | Remove a variable from shell scope                                     |
+| env     | —            | List currently exported environment variables                          |
 
 -----
 
@@ -112,7 +137,7 @@ HSH is an ongoing project, and there are many features planned for future develo
   * **More Built-in Commands**:
       * `pwd`: Print current working directory. [Done]
       * `mkdir`: Create new directories.
-      * `rm`: Remove files or directories.
+      * `rm`: Remove files or directories. [Done]
       * `cp`: Copy files or directories.
       * `mv`: Move/rename files or directories.
       * `echo`: Print arguments to stdout. [Done]
