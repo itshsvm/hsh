@@ -1,10 +1,12 @@
-// Hsh Core ...
 pub mod Hsc {
 
-    use crate::variables::{self, Variables};
+    use crate::{errors::CommandError, variables::{self, Variables}};
+
     use std::{
         collections::{HashMap, HashSet},
-        env, fmt,
+        env,
+        error::Error,
+        fmt,
         fs::{self, File},
         io::{self, ErrorKind, Read},
         path::Path,
@@ -63,10 +65,7 @@ pub mod Hsc {
         }
     }
 
-    #[derive(Debug)]
-    pub enum CommandError {
-        CmdErr(String),
-    }
+    
 
     impl fmt::Display for Commands {
         fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -109,9 +108,11 @@ pub mod Hsc {
                 "rmdir" => Ok(Self::RmDir),
 
                 e => Err(CommandError::CmdErr(e.to_string())),
+                _ => Err(CommandError::InvalidCommand),
             }
         }
     }
+    
 
     impl Commands {
         pub fn commnd(input: Self, args: Vec<String>) {
@@ -241,6 +242,10 @@ pub mod Hsc {
             }
 
             Ok(())
+        }
+
+        pub fn parse_command(s: &str) -> Result<Commands, CommandError> {
+            s.parse::<Commands>()
         }
 
         pub fn execute_rmdir(args: Vec<String>) -> io::Result<()> {
